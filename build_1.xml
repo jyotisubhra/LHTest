@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="soapUITest" default="main" basedir=".">
+	
+	<target name="init">
+	    <tstamp/>
+		<property name="src.dir"     	value="src"/>
+		<property name="build.dir"   	value="build"/>
+		<property name="classes.dir" 	value="${build.dir}/classes"/>
+		<property name="jar.dir"     	value="${build.dir}/jar"/>
+		<property name="lib.dir"       	value="${basedir}/lib"/>
+		<property name="report.dir"     value="${basedir}/build"/>
+		<property name="testsuite.dir"  value="${basedir}/TestSuite"/>
+		<property name="html.dir"       value="${basedir}/build/HTML"/>
+		<property name="xml.dir"       	value="${basedir}/TestSuite/SmokeTest-ADC.xml"/>
+		<property name="soap.executable"       	value="C:/Program Files (x86)/SmartBear/SoapUI-5.3.0/bin/testrunner.bat"/>
+		<property name="main.class"  	value="com/lh/ExcelReportGenerator"/>
+		<path id="class.path">
+		  <fileset dir="lib">
+		    <include name="**/*.jar" />
+		 </fileset>
+		</path>
+		
+	  </target>
+	
+	<target name="ant-clean" depends="init">
+	    <delete dir="${build.dir}"/>
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<target name="soapui"><exec dir="." executable="${soap.executable}"><arg line="-r -j -f '${testsuite.dir}' -sGUI '${xml.dir}'"/></exec></target>
+		
+	<target name="testreport" depends="soapui">	
+	<junitreport todir="${report.dir}">
+		<fileset dir="${testsuite.dir}">
+		<include name="TEST-*.xml"/>	
+		</fileset>
+		<report todir="${html.dir}"/>
+	</junitreport>
+	</target>
+	
+	<target name="compile" depends="testreport">
+		<mkdir dir="${classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true">
+			<classpath refid="class.path" />
+	
+		</javac>	
+	</target>
+	
+	<target name="jar" depends="compile">
+		<delete file="${jar.dir}" />
+		<delete file="${manifest.file}" />
+		
+		<manifest file="${manifest.file}" >
+		    <attribute name="Main-Class" value="${main.class}" />
+		 </manifest>
+		
+		<mkdir dir="${jar.dir}"/>
+		
+		<jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}" manifest="${manifest.file}">
+			<!--<fileset dir="${classes.dir}" includes="**/*.class" />-->
+			<zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+	</target>
+		
+		
+	<target name="clean-build" depends="ant-clean,jar"/>
+	
+	<target name="main" depends="ant-clean,run"/>
+
+
+
+</project>

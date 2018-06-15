@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="GenerateBuild" default="build" basedir=".">
+
+	<target name="init">
+	    <tstamp/>
+		<property name="src.dir"     	value="src"/>
+		<property name="init.build.dir"   	value="initbuild"/>
+		<property name="init.classes.dir" 	value="${init.build.dir}/classes"/>
+		<property name="init.jar.dir"     	value="${init.build.dir}/jar"/>
+		<property name="lib.dir"       	value="${basedir}/lib"/>
+		<property name="main.java.class"  	value="com/lh/ReadFile"/>
+		<path id="class.path">
+		  <fileset dir="lib">
+		    <include name="**/*.jar" />
+		 </fileset>
+		</path>
+		
+	  </target>
+	  
+	<target name="build" depends="clean,callFinalBuild"/>
+	
+	<target name="callFinalBuild" depends="replace">
+    	<ant antfile="build_1.xml" target="main"/>
+	</target>
+	
+	<target name="clean" depends="init">
+	    <delete dir="${init.build.dir}"/>
+		<mkdir dir="${init.build.dir}"/>
+	</target>
+	
+	<target name="replace" depends="runProg">
+     <loadfile property="replace.txt" srcFile="${basedir}/initbuild/jar/GenerateBuild.jaroutput.txt"/>
+     <!--<echo>${foo.bar}</echo>-->
+     <copy file="${basedir}/template/template.bkp" tofile="${basedir}/build_1.xml" filtering="yes" overwrite="yes">
+		<filterset>
+		    <filter token="REPLACETHIS" value="${replace.txt}"/>
+		</filterset>
+	</copy>
+   </target>
+	
+	<target name="runProg" depends="createJar">
+		<java jar="${init.jar.dir}/${ant.project.name}.jar" fork="true"/>
+	</target>
+	
+	<target name="createJar" depends="initCompile">
+		<delete file="${init.jar.dir}" />
+		<delete file="${manifest.file}" />
+		
+		<manifest file="${manifest.file}" >
+		    <attribute name="Main-Class" value="${main.java.class}" />
+		 </manifest>
+		
+		<mkdir dir="${init.jar.dir}"/>
+		
+		<jar destfile="${init.jar.dir}/${ant.project.name}.jar" basedir="${init.classes.dir}" manifest="${manifest.file}">
+			<!--<fileset dir="${init.classes.dir}" includes="**/*.class" />-->
+			<!--  <zipgroupfileset dir="${lib.dir}" includes="**/*.jar" />-->
+		</jar>
+	</target>
+	
+	<target name="initCompile">
+		<mkdir dir="${init.classes.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${init.classes.dir}" debug="true">
+			<classpath refid="class.path" />
+	
+		</javac>	
+	</target>
+	
+	
+</project>

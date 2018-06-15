@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<target name="soapui">
+<exec dir="." executable="${soap.executable}">
+<arg line="-r -j -f '${testsuite.dir}' -sGUI '${xml.dir}'"/>
+</exec>
+</target>
