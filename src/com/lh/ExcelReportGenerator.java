@@ -113,7 +113,7 @@ public class ExcelReportGenerator {
 			}
 		}
 		
-		path = path.replaceAll("TestSuite", "build/report");
+		path = path.replaceAll("Generated", "report");
 		if (!new File(path).isDirectory()) {
 			boolean status = new File(path).mkdir();
 			System.out.println("Report Directory Not Exist!, Created: " + status);
