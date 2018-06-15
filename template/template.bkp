@@ -24,13 +24,7 @@
 	
 	<target name="ant-clean" depends="init">
 	    <delete dir="${build.dir}"/>
-	    <delete>
-	    <fileset dir="target">
-    		<include name="*/"/>
-    		<exclude name="big_and_complex_dir/"/>
-		</fileset>
-	    </delete>
-		<mkdir dir="${build.dir}"/>
+	    <mkdir dir="${build.dir}"/>
 	</target>
 
 	@REPLACETHIS@
