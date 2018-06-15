@@ -25,7 +25,7 @@ public class ExcelReportGenerator {
 		
 		String path = ExcelReportGenerator.class.getProtectionDomain().getCodeSource().getLocation().getFile();
 		//String path = "C:/Workspace/AlertAutomation/SmokeTestAutomation/target/classes/";
-		path= path.replaceAll("build/jar/soapUITest.jar", "TestSuite/");
+		path= path.replaceAll("build/jar/soapUITest.jar", "build/Generated/");
 		System.out.println(path);
 		
 		
