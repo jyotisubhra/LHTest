@@ -11,7 +11,7 @@
 		<property name="report.dir"     value="${basedir}/build"/>
 		<property name="testsuite.dir"  value="${basedir}/build/Generated"/>
 		<property name="html.dir"       value="${basedir}/build/HTML"/>
-		<property name="xml.dir"       	value="${basedir}/TestSuite/SmokeTest-ADC.xml"/>
+		<property name="xml.dir"       	value="${basedir}/TestSuite"/>
 		<property name="soap.executable"       	value="C:/Program Files (x86)/SmartBear/SoapUI-5.3.0/bin/testrunner.bat"/>
 		<property name="main.class"  	value="com/lh/ExcelReportGenerator"/>
 		<path id="class.path">
@@ -23,9 +23,9 @@
 	  </target>
 	
 	<target name="ant-clean" depends="init">
-	    <delete dir="${build.dir}"/>
-	    <mkdir dir="${build.dir}"/>
-	    <mkdir dir="${testsuite.dir}"/>
+	    <delete dir="${build.dir}"/>	    
+		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${testsuite.dir}"/>
 	</target>
 
 	@REPLACETHIS@
