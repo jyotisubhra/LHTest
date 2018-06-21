@@ -23,7 +23,7 @@ import org.w3c.dom.Element;
 
 public class GenerateFile {
 
-	public static void generatedXML(BufferedReader br) throws IOException {
+	public static void generatedXML(BufferedReader br, String filename) throws IOException {
 		String st;
 		// root elements
 		Document doc = null;
@@ -46,6 +46,7 @@ public class GenerateFile {
 			e1.printStackTrace();
 		}
 
+		System.out.println("File Name " + filename);
 		while ((st = br.readLine()) != null) {
 			System.out.println(st);
 
@@ -69,7 +70,7 @@ public class GenerateFile {
 
 			// set attribute line to arg element
 			Attr line = doc.createAttribute("line");
-			line.setValue("-r -j -f '${testsuite.dir}' -s" + st + " '${xml.dir}'");
+			line.setValue("-r -j -f '${testsuite.dir}' -s" + st + " '${xml.dir}/" + filename + "'");
 			arg.setAttributeNode(line);
 
 
