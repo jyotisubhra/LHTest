@@ -18,6 +18,7 @@
 	  </target>
 	  
 	<target name="build" depends="clean,callFinalBuild"/>
+	<target name="notfullbuild" depends="clean,replace"/>
 	
 	<target name="callFinalBuild" depends="replace">
     	<ant antfile="build_1.xml" target="main"/>
